@@ -1,6 +1,38 @@
 <template>
-  <div class="grid grid-cols-3 gap-4 m-2 border-solid border-1 border-zinc-700 rounded">
+  <div class="grid grid-cols-6 gap-4 m-2 border-solid border-1 border-zinc-700 rounded">
     <div class="col-span-2 m-2">
+      <Card>
+      <template #title>
+        <h2>Chart</h2>
+      </template>
+      <template #content>
+        <Chart type="line" :data="chartData" :options="chartOptions" class="h-[8rem]" />
+      </template>
+    </Card>
+    </div>
+    <div class="col-span-2 m-2">
+      <Card>
+        <template #title>
+        <h2>Chart</h2>
+      </template>
+      <template #content>
+        <Chart type="line" :data="chartData" :options="chartOptions" class="h-[8rem]" />
+      </template>
+      </Card>
+
+    </div>
+    <div class="col-span-2 m-2">
+      <Card>
+        <template #title>
+        <h2>Chart</h2>
+      </template>
+      <template #content>
+        <Chart type="line" :data="chartData" :options="chartOptions" class="h-[8rem]" />
+      </template>
+      </Card>
+
+    </div>
+    <div class="col-span-3 m-2">
       <Card>
       <template #title>
         <h2>Chart</h2>
@@ -10,7 +42,7 @@
       </template>
     </Card>
     </div>
-    <div class="col-span-1 m-2">
+    <div class="col-span-2 m-2">
       <Card>
         <template #title>
         <h2>Chart</h2>
@@ -46,15 +78,15 @@ const setChartData = () => {
                 label: 'First Dataset',
                 data: [65, 59, 80, 81, 56, 55, 40],
                 fill: false,
-                borderColor: documentStyle.getPropertyValue('--p-cyan-500'),
-                tension: 0.4
+                borderColor: documentStyle.getPropertyValue('--p-green-500'),
+                tension: 0
             },
             {
                 label: 'Second Dataset',
                 data: [28, 48, 40, 19, 86, 27, 90],
                 fill: false,
-                borderColor: documentStyle.getPropertyValue('--p-gray-500'),
-                tension: 0.4
+                borderColor: documentStyle.getPropertyValue('--p-red-500'),
+                tension: 0
             }
         ]
     };
@@ -92,7 +124,8 @@ const setChartOptions = () => {
                     color: surfaceBorder
                 }
             }
-        }
+        },
+        
     };
 }
 </script>
