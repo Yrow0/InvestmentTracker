@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="">
     <header>
       <div>
 <MegaMenu :model="items" class="p-4 bg-surface-0 m-2">
@@ -11,7 +11,9 @@
 </MegaMenu>
       </div>
     </header>
-    <slot />
+    <div>
+      <slot />
+    </div>
   </div>
 </template>
 
