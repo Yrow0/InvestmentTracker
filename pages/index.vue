@@ -1,59 +1,46 @@
 <template>
-  <div class="grid grid-cols-6 gap-4 m-2 border-solid border-1 border-zinc-700 rounded">
-    <div class="col-span-2 m-2">
+  <div class="grid grid-cols-6 gap-2 border-solid border-1 border-zinc-700 rounded mx-2 mb-2">
+    <div class="col-span-1 mt-2 ml-2">
+      <Card>
+        <template #title >
+          <h1 class="text-green-300"> $ 24,450</h1>
+        </template>
+        <template #content>
+          <h3 class="text-zinc-400">Total Balance</h3>
+
+        </template>
+      </Card>
+    </div>
+    <div class="col-start-1 col-span-3 ml-2">
+      <Card>
+        <template #title>
+          <h2>donut</h2>
+        </template>
+        <template #content>
+          <Donut />
+        </template>
+      </Card>
+    </div>
+    <div class="col-start-4 col-span-3 mr-2">
       <Card>
       <template #title>
         <h2>Chart</h2>
       </template>
       <template #content>
-        <Chart type="line" :data="chartData" :options="chartOptions" class="h-[8rem]" />
+        <Chart type="line" :data="chartData" :options="chartOptions" class="h-[20rem]" />
       </template>
     </Card>
     </div>
-    <div class="col-span-2 m-2">
+    <div class="mx-2 mb-2 col-span-6">
       <Card>
         <template #title>
-        <h2>Chart</h2>
-      </template>
-      <template #content>
-        <Chart type="line" :data="chartData" :options="chartOptions" class="h-[8rem]" />
-      </template>
+          <h1>Your cryptos</h1>
+        </template>
+        <template #content>
+          <Cointable />
+        </template>
       </Card>
-
     </div>
-    <div class="col-span-2 m-2">
-      <Card>
-        <template #title>
-        <h2>Chart</h2>
-      </template>
-      <template #content>
-        <Chart type="line" :data="chartData" :options="chartOptions" class="h-[8rem]" />
-      </template>
-      </Card>
-
-    </div>
-    <div class="col-span-3 m-2">
-      <Card>
-      <template #title>
-        <h2>Chart</h2>
-      </template>
-      <template #content>
-        <Chart type="line" :data="chartData" :options="chartOptions" class="h-[30rem]" />
-      </template>
-    </Card>
-    </div>
-    <div class="col-span-2 m-2">
-      <Card>
-        <template #title>
-        <h2>Chart</h2>
-      </template>
-      <template #content>
-        <Chart type="line" :data="chartData" :options="chartOptions" class="h-[30rem]" />
-      </template>
-      </Card>
-
-    </div>
-    
   </div>
 </template>
 
@@ -79,13 +66,6 @@ const setChartData = () => {
                 data: [65, 59, 80, 81, 56, 55, 40],
                 fill: false,
                 borderColor: documentStyle.getPropertyValue('--p-green-500'),
-                tension: 0
-            },
-            {
-                label: 'Second Dataset',
-                data: [28, 48, 40, 19, 86, 27, 90],
-                fill: false,
-                borderColor: documentStyle.getPropertyValue('--p-red-500'),
                 tension: 0
             }
         ]
