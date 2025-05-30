@@ -3,7 +3,10 @@
     <div class="col-span-1 mt-2 ml-2">
       <Card>
         <template #title >
-          <h1 class="text-green-300"> $ 24,450</h1>
+          <div class="flex flex-row items-center gap-2">
+              <h1 class="text-green-300"> $ 24,450</h1>
+              <i class="pi pi-arrow-up text-green-500 text-xs"></i>
+          </div>
         </template>
         <template #content>
           <h3 class="text-zinc-400">Total Balance</h3>
@@ -14,7 +17,7 @@
     <div class="col-start-1 col-span-3 ml-2">
       <Card>
         <template #title>
-          <h2>donut</h2>
+          <h2>Récap</h2>
         </template>
         <template #content>
           <Donut />
@@ -24,10 +27,10 @@
     <div class="col-start-4 col-span-3 mr-2">
       <Card>
       <template #title>
-        <h2>Chart</h2>
+        <h2>Évolution du patrimoire</h2>
       </template>
       <template #content>
-        <Chart type="line" :data="chartData" :options="chartOptions" class="h-[20rem]" />
+        <Chart type="line" :data="chartData" :options="chartOptions" class="h-[18rem]" />
       </template>
     </Card>
     </div>
