@@ -23,8 +23,8 @@
       <div>
 <MegaMenu :model="items" class="p-4 bg-surface-0 m-2">
     <template #end>
-      <div class="gap-2 flex flex-row align-items">
-        <Button type="button" label="Add Entry" icon="pi pi-plus" @click="visible = true"/>
+      <div class="gap-2 flex flex-row items-center">
+        <Button type="button" label="Add Entry" icon="pi pi-plus" @click="visible = true" class="h-[2rem] "/>
         
         <Avatar image="/img/avatar.png" shape="circle"  size="large"/>
       </div>
