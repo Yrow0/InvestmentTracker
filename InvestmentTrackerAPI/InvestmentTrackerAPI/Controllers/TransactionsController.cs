@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InvestmentTrackerAPI.Data;
 using InvestmentTrackerAPI.Models;
+using AutoMapper;
+using InvestmentTrackerAPI.Requests.Transactions;
+using InvestmentTrackerAPI.Responses.Transactions;
 
 namespace InvestmentTrackerAPI.Controllers
 {
@@ -15,24 +18,31 @@ namespace InvestmentTrackerAPI.Controllers
     public class TransactionsController : ControllerBase
     {
         private readonly InvestmentTrackerContext _context;
-
-        public TransactionsController(InvestmentTrackerContext context)
+        private readonly IMapper _mapper;
+        public TransactionsController(InvestmentTrackerContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Transactions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactions()
+        public async Task<ActionResult<IEnumerable<TransactionResponse>>> GetTransactions()
         {
-            return await _context.Transactions.ToListAsync();
+            return  _mapper.Map<List<TransactionResponse>>(await _context.Transactions
+                .Include(t => t.Type)
+                .Include(t => t.Category)
+                .ToListAsync());
         }
 
         // GET: api/Transactions/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Transaction>> GetTransaction(Guid id)
         {
-            var transaction = await _context.Transactions.FindAsync(id);
+            var transaction = await _context.Transactions
+                .Include(t => t.Type)
+                .Include(t => t.Category)
+                .FirstOrDefaultAsync(t => t.Id == id);
 
             if (transaction == null)
             {
@@ -76,8 +86,9 @@ namespace InvestmentTrackerAPI.Controllers
         // POST: api/Transactions
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Transaction>> PostTransaction(Transaction transaction)
+        public async Task<ActionResult<Transaction>> PostTransaction(TransactionRequest _transaction)
         {
+            Transaction transaction = _mapper.Map<Transaction>(_transaction);
             _context.Transactions.Add(transaction);
             try
             {
@@ -95,7 +106,7 @@ namespace InvestmentTrackerAPI.Controllers
                 }
             }
 
-            return CreatedAtAction("GetTransaction", new { id = transaction.Id }, transaction);
+            return CreatedAtAction("GetTransaction", new { id = transaction.Id }, _transaction);
         }
 
         // DELETE: api/Transactions/5

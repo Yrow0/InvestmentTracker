@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using InvestmentTrackerAPI.Data;
+using InvestmentTrackerAPI.Mapper;
+using InvestmentTrackerAPI.Profiles;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,6 +14,12 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContextFactory<InvestmentTrackerContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("Sql")));
+
+//Mapper
+builder.Services.AddAutoMapper(typeof(TransactionProfile));
+builder.Services.AddAutoMapper(typeof(CategoryProfile));
+builder.Services.AddAutoMapper(typeof(TypeProfile));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

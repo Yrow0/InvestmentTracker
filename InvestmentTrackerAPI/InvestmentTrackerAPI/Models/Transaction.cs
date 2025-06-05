@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace InvestmentTrackerAPI.Models;
 
 public class Transaction
 {
-    public Guid Id { get; set; }
-
+    [Key]
+    public Guid Id { get; set; } = Guid.NewGuid();
     public DateTime Date { get; set; }
 
     public decimal Amount { get; set; }
