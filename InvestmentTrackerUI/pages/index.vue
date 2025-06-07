@@ -37,7 +37,7 @@
     <div class="mx-2 mb-2 col-span-6">
       <Card>
         <template #title>
-          <h1>Your cryptos</h1>
+          <h1>Dernières Transactions</h1>
         </template>
         <template #content>
           <Cointable />
