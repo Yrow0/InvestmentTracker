@@ -4,18 +4,18 @@ using InvestmentTrackerAPI.Responses.Type;
 
 namespace InvestmentTrackerAPI.Profiles
 {
-    public class TypeProfile : Profile
+    public class TransactionTypeProfile : Profile
     {
         IMapper _mapper;
 
-        public TypeProfile(IMapper mapper)
+        public TransactionTypeProfile(IMapper mapper)
         {
             _mapper = mapper;
         }
 
-        public TypeProfile()
+        public TransactionTypeProfile()
         {
-            CreateMap<Models.Type, TypeResponse>();
+            CreateMap<Models.TransactionType, TransactionTypeResponse>();
         }
     }
 }

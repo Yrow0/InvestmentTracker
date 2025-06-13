@@ -18,7 +18,7 @@ builder.Services.AddDbContextFactory<InvestmentTrackerContext>(opt =>
 //Mapper
 builder.Services.AddAutoMapper(typeof(TransactionProfile));
 builder.Services.AddAutoMapper(typeof(CategoryProfile));
-builder.Services.AddAutoMapper(typeof(TypeProfile));
+builder.Services.AddAutoMapper(typeof(TransactionTypeProfile));
 
 builder.Services.AddCors(options =>
 {

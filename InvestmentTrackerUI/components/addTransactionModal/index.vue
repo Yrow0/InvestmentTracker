@@ -11,7 +11,7 @@
       </div>
       <div class="flex items-center gap-4 mb-4">
         <label for="amount" class="font-semibold w-24">Montant</label>
-        <InputNumber name="amount" id="amount" class="flex-auto" autocomplete="off" :min-fraction-digits="0" :max-fraction-digits="2" />
+        <InputNumber name="amount" id="amount" class="flex-auto" autocomplete="off" :min-fraction-digits="0" :max-fraction-digits="2" v-model="amount" />
       </div>
       <div class="flex items-center gap-4 mb-8">
         <label for="comment" class="font-semibold w-24">Commentaire</label>
@@ -30,11 +30,18 @@
 
 
 import {useToast} from "primevue/usetoast"
-import { Transaction } from "~/models/Transaction";
+import { TransactionRequest } from "~/models/TransactionRequest";
 import { AddTransaction } from "~/services/transactionService"
+import { GetCategories } from "~/services/categoryService";
+import { Category } from "~/models/Category";
+import type { Type } from "~/models/Type";
+import { GetTypes } from "~/services/typeService";
+
   const toast = useToast();
   const props = defineProps<{ visible: boolean }>()
 const emit = defineEmits<{ (e: 'update:visible', value: boolean): void }>()
+
+
 
 
 function closeModal() {
@@ -44,36 +51,30 @@ function closeModal() {
 function onVisibleUpdate(val: boolean) {
   emit('update:visible', val)
 }
-
+const amount =ref<number>();
+const comment = ref<string>();
 const selectedType = ref();
-const types = ref(
-    [
-        {name :'Entrée'},
-        {name : 'Sortie'}
-    ]
-)
-
 const selectedCategory = ref();
-const categories = ref(
-    [
-        {name :'Salaire'},
-        {name : 'Investissement'},
-        {name :'Nourriture'},
-        {name : 'Transport'}
-    ]
-)
 
-const comment = ref();
+const types = ref<Type[]>([]);
+const categories = ref<Category[]>([]);
+
+onMounted(async () => {
+  categories.value = await GetCategories();
+  types.value = await GetTypes();
+});
+
 
 
 const onFormSubmit = async ({ valid }: { valid: boolean }) => {
+  
   try {
-    const transaction = new Transaction({
-      typeId: '1',
-      categoryId: '2',
-      amount: 100,
-      description: 'Achat bureau'
-    });
+    const transaction = new TransactionRequest({
+      typeId: selectedType.value?.id || '',
+      categoryId: selectedCategory.value?.id || '',
+      amount: amount.value ?? 0,  
+      description: comment.value ?? ''
+     });
 
     const responseData = await AddTransaction(transaction);
 
@@ -87,10 +88,7 @@ const onFormSubmit = async ({ valid }: { valid: boolean }) => {
     else{
       throw("error");
     }
-
-
  } catch (error: unknown) {
-    closeModal();
     const err = error as Error;
 
     toast.add({
@@ -101,6 +99,9 @@ const onFormSubmit = async ({ valid }: { valid: boolean }) => {
     });
 
     console.error('Erreur lors de l\'appel API :', err);
+ }
+ finally{
+    closeModal();
  }
 }
 

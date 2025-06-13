@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace InvestmentTrackerAPI.Models;
 
-public class Type
+public class TransactionType
 {
     public int Id { get; set; }
 

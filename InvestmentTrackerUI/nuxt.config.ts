@@ -2,6 +2,9 @@ import Aura from '@primeuix/themes/aura';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineNuxtConfig({
+   app: {
+    pageTransition: { name: 'page', mode: 'out-in' }
+  },
   plugins:
   [
   ],

@@ -30,7 +30,7 @@
         <h2>Évolution des dépenses</h2>
       </template>
       <template #content>
-        <Chart type="line" :data="chartData" :options="chartOptions" class="h-[18rem]" />
+        <Chart type="bar" :data="chartData" :options="chartOptions" class="h-[18rem]" />
       </template>
     </Card>
     </div>
@@ -40,41 +40,49 @@
           <h1>Dernières Transactions</h1>
         </template>
         <template #content>
-          <TransactionHistory />
+          <TransactionHistory :transactions="transactions"/>
         </template>
       </Card>
     </div>
   </div>
 </template>
+<script setup lang="ts">
+import { date } from "@primeuix/themes/aura/datepicker";
+import { ref, onMounted, watch } from "vue";
+import { Transaction } from "~/models/Transaction";
+import { GetTransactions } from "~/services/transactionService";
+import { MONTHS } from "~/miscs/month"
 
-<script setup>
-import { ref, onMounted } from "vue";
+const transactions = ref<Transaction[]>([]);
 
-onMounted(() => {
-    chartData.value = setChartData();
-    chartOptions.value = setChartOptions();
+watch(transactions, (newVal) => {
+  chartData.value = SetChartData(newVal);
 });
-
 const chartData = ref();
 const chartOptions = ref();
-        
-const setChartData = () => {
-    const documentStyle = getComputedStyle(document.documentElement);
 
+onMounted(async () => {
+  transactions.value = await GetTransactions();
+  chartOptions.value = setChartOptions();
+  chartData.value = SetChartData(transactions.value);
+});
+
+function SetChartData(_transactions: Transaction[]) {
+    const documentStyle = getComputedStyle(document.documentElement);
     return {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [
-            {
-                label: 'First Dataset',
-                data: [65, 59, 80, 81, 56, 55, 40],
-                fill: false,
-                borderColor: documentStyle.getPropertyValue('--p-green-500'),
-                tension: 0.4
-            }
-        ]
-    };
-};
-const setChartOptions = () => {
+      labels:getMonthsFromTransactions(_transactions),
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Investissement',
+          backgroundColor: documentStyle.getPropertyValue('--p-cyan-500'),
+          data : [10]
+        }
+      ]
+    }
+
+}
+const setChartOptions = () =>  {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--p-text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
@@ -82,8 +90,12 @@ const setChartOptions = () => {
 
     return {
         maintainAspectRatio: false,
-        aspectRatio: 0.6,
+        aspectRatio: 0.8,
         plugins: {
+            tooltips: {
+                mode: 'index',
+                intersect: false
+            },
             legend: {
                 labels: {
                     color: textColor
@@ -92,6 +104,7 @@ const setChartOptions = () => {
         },
         scales: {
             x: {
+                stacked: true,
                 ticks: {
                     color: textColorSecondary
                 },
@@ -100,6 +113,7 @@ const setChartOptions = () => {
                 }
             },
             y: {
+                stacked: true,
                 ticks: {
                     color: textColorSecondary
                 },
@@ -107,8 +121,26 @@ const setChartOptions = () => {
                     color: surfaceBorder
                 }
             }
-        },
-        
+        }
     };
+};
+
+
+function getMonthsFromTransactions(transactions: Transaction[]): string[] {
+  const monthsSet = new Set<string>();
+
+  transactions.forEach(tx => {
+    if (!tx.date) return; // Skip si date est undefined/null
+
+    const date = new Date(tx.date); // tx.date est maintenant sûr
+    if (!isNaN(date.getTime())) {
+      monthsSet.add(MONTHS[date.getMonth()]);
+    }
+  });
+  console.log(monthsSet);
+  return Array.from(monthsSet).sort();
 }
+
+
+
 </script>

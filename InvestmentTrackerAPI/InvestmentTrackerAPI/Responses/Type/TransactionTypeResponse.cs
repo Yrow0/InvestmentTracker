@@ -1,6 +1,6 @@
 ﻿namespace InvestmentTrackerAPI.Responses.Type
 {
-    public class TypeResponse
+    public class TransactionTypeResponse
     {
         public int Id { get; set; }
 

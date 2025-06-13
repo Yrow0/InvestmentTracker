@@ -20,5 +20,5 @@ public class Transaction
 
     public virtual Category Category { get; set; } = null!;
 
-    public virtual Type Type { get; set; } = null!;
+    public virtual TransactionType Type { get; set; } = null!;
 }

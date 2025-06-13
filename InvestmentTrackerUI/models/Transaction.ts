@@ -1,23 +1,25 @@
+import type { Category } from "./Category"
+import type { Type } from "./Type"
+
 export class Transaction {
+    id? : string
     typeId? : string
     categoryId? : string
     amount: number
     description? : string
+    category? : Category
+    type? : Type
+    date? : Date
 
     constructor(data: Partial<Transaction>) {
+    this.id = data.id
     this.typeId = data.typeId
     this.categoryId = data.categoryId
     this.amount = data.amount ?? 0
     this.description = data.description
-  }
-
-  toJson(): Record<string, any> {
-    return {
-      typeId: this.typeId,
-      categoryId: this.categoryId,
-      amount: this.amount,
-      description: this.description,
-    }
+    this.category = data.category
+    this.type = data.type
+    this.date = data.date
   }
 
 }

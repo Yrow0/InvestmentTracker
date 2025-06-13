@@ -20,6 +20,6 @@ namespace InvestmentTrackerAPI.Responses.Transactions
 
         public virtual CategoryResponse Category { get; set; } = null!;
 
-        public virtual TypeResponse Type { get; set; } = null!;
+        public virtual TransactionTypeResponse Type { get; set; } = null!;
     }
 }

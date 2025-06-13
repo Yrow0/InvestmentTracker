@@ -1,7 +1,7 @@
 
 <template>
     <div class="card">
-        <DataTable :value="customers" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" tableStyle="min-width: 50rem " 
+        <DataTable :value="props.transactions" paginator :rows="5" :rowsPerPageOptions="[5, 10, 20, 50]" tableStyle="min-width: 50rem " 
                 paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
                 currentPageReportTemplate="{first} to {last} of {totalRecords}">
             <template #paginatorstart>
@@ -10,16 +10,20 @@
             <template #paginatorend>
                 <Button type="button" icon="pi pi-download" text />
             </template>
-            <Column field="name" header="Type" style="width: 25%"></Column>
-            <Column field="country.name" header="Catégorie" style="width: 25%"></Column>
-            <Column field="company" header="Montant" style="width: 25%"></Column>
-            <Column field="representative.name" header="Commentaire" style="width: 25%"></Column>
+            <Column field="type.name" header="Type" style="width: 25%"></Column>
+            <Column field="category.name" header="Catégorie" style="width: 25%"></Column>
+            <Column field="amount" header="Montant" style="width: 25%"></Column>
+            <Column field="date" header="Date" style="width: 25%"></Column>
+            <Column field="description" header="Commentaire" style="width: 25%"></Column>
         </DataTable>
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { Transaction } from '~/models/Transaction';
+
+const props = defineProps<{transactions : Transaction[]}>();
 
 onMounted(() => {
 });
