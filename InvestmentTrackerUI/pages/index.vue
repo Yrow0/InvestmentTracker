@@ -4,30 +4,30 @@
       <Card>
         <template #title >
           <div class="flex flex-row items-center gap-2">
-              <h1 class="text-green-300"> $ 24,450</h1>
+              <h1 class="text-green-300"> 1,400 €</h1>
               <i class="pi pi-arrow-up text-green-500 text-xs"></i>
           </div>
         </template>
         <template #content>
-          <h3 class="text-zinc-400">Total Balance</h3>
+          <h3 class="text-zinc-400">Montant Total</h3>
 
         </template>
       </Card>
     </div>
-    <div class="col-start-1 col-span-3 ml-2">
+    <div class="col-start-1 col-span-2 ml-2">
       <Card>
         <template #title>
-          <h2>Récap</h2>
+          <h2>Récapitulatif</h2>
         </template>
         <template #content>
           <Donut />
         </template>
       </Card>
     </div>
-    <div class="col-start-4 col-span-3 mr-2">
+    <div class="col-start-3 col-span-4 mr-2">
       <Card>
       <template #title>
-        <h2>Évolution du patrimoire</h2>
+        <h2>Évolution des dépenses</h2>
       </template>
       <template #content>
         <Chart type="line" :data="chartData" :options="chartOptions" class="h-[18rem]" />
@@ -40,7 +40,7 @@
           <h1>Dernières Transactions</h1>
         </template>
         <template #content>
-          <Cointable />
+          <TransactionHistory />
         </template>
       </Card>
     </div>
@@ -69,7 +69,7 @@ const setChartData = () => {
                 data: [65, 59, 80, 81, 56, 55, 40],
                 fill: false,
                 borderColor: documentStyle.getPropertyValue('--p-green-500'),
-                tension: 0
+                tension: 0.4
             }
         ]
     };

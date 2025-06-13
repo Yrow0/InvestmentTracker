@@ -2,13 +2,13 @@ export class Transaction {
     typeId? : string
     categoryId? : string
     amount: number
-    comment? : string
+    description? : string
 
     constructor(data: Partial<Transaction>) {
     this.typeId = data.typeId
     this.categoryId = data.categoryId
     this.amount = data.amount ?? 0
-    this.comment = data.comment
+    this.description = data.description
   }
 
   toJson(): Record<string, any> {
@@ -16,7 +16,7 @@ export class Transaction {
       typeId: this.typeId,
       categoryId: this.categoryId,
       amount: this.amount,
-      comment: this.comment,
+      description: this.description,
     }
   }
 

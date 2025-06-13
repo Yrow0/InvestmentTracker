@@ -20,7 +20,7 @@ const setChartData = () => {
     const documentStyle = getComputedStyle(document.body);
 
     return {
-        labels: ['Crypto', 'Bourses', 'Cash', 'Immo'],
+        labels: ['Salaire', 'Investissement', 'Nourriture', 'Transport'],
         datasets: [
             {
                 data: [540, 325, 702, 403],

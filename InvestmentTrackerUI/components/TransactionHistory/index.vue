@@ -10,10 +10,10 @@
             <template #paginatorend>
                 <Button type="button" icon="pi pi-download" text />
             </template>
-            <Column field="name" header="Name" style="width: 25%"></Column>
-            <Column field="country.name" header="Country" style="width: 25%"></Column>
-            <Column field="company" header="Company" style="width: 25%"></Column>
-            <Column field="representative.name" header="Representative" style="width: 25%"></Column>
+            <Column field="name" header="Type" style="width: 25%"></Column>
+            <Column field="country.name" header="Catégorie" style="width: 25%"></Column>
+            <Column field="company" header="Montant" style="width: 25%"></Column>
+            <Column field="representative.name" header="Commentaire" style="width: 25%"></Column>
         </DataTable>
     </div>
 </template>

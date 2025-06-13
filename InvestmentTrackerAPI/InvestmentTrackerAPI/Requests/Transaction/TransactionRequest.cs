@@ -6,7 +6,7 @@ namespace InvestmentTrackerAPI.Requests.Transactions
     {
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.UtcNow;
 
         public decimal Amount { get; set; }
 

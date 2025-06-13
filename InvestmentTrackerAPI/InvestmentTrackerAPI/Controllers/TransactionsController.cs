@@ -106,7 +106,7 @@ namespace InvestmentTrackerAPI.Controllers
                 }
             }
 
-            return CreatedAtAction("GetTransaction", new { id = transaction.Id }, _transaction);
+            return Ok();
         }
 
         // DELETE: api/Transactions/5
