@@ -10,6 +10,7 @@ using InvestmentTrackerAPI.Models;
 using AutoMapper;
 using InvestmentTrackerAPI.Requests.Transactions;
 using InvestmentTrackerAPI.Responses.Transactions;
+using System.Globalization;
 
 namespace InvestmentTrackerAPI.Controllers
 {
@@ -52,6 +53,48 @@ namespace InvestmentTrackerAPI.Controllers
             return transaction;
         }
 
+        // GET: api/Transactions/5
+        [HttpGet("monthly")]
+        public async Task<ActionResult<List<TransactionsByMonth>>> GetTransactionsByMonth()
+        {
+            var transactions = _mapper.Map<List<TransactionResponse>>( await _context.Transactions
+                .Include(t => t.Type)
+                .Include(t => t.Category)
+                .ToListAsync());
+
+            var grouped = transactions
+                .GroupBy(t => t.Date.ToString("yyyy-MM")) // Group by year and month
+                .OrderBy(g => g.Key) // Optional: most recent month first
+                .Select(g => new TransactionsByMonth
+                {
+                    Month = DateTime.ParseExact(g.Key, "yyyy-MM", null).ToString("MMMM", new CultureInfo("fr-FR")),
+                    Year = DateTime.ParseExact(g.Key, "yyyy-MM", null).ToString("yyyy", new CultureInfo("fr-FR")), 
+                    Transactions = g.ToList()
+                })
+                .ToList();
+
+            return grouped;
+        }
+
+        [HttpGet("amountbycategory")]
+        public async Task<ActionResult<Dictionary<int, int>>> GetTransactionAmountsByCategory()
+        {
+            var transactions = _mapper.Map<List<TransactionResponse>>(await _context.Transactions
+                .Include(t => t.Type)
+                .Include(t => t.Category)
+                .ToListAsync());
+
+            var amountByCategory = transactions
+            .GroupBy(t => t.Category.Id)
+            .ToDictionary(
+                g => g.Key,
+                g => (int)g.Sum(t => t.Amount)
+            );
+
+            return amountByCategory;
+        }
+
+
         // PUT: api/Transactions/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -89,6 +132,10 @@ namespace InvestmentTrackerAPI.Controllers
         public async Task<ActionResult<Transaction>> PostTransaction(TransactionRequest _transaction)
         {
             Transaction transaction = _mapper.Map<Transaction>(_transaction);
+            if(transaction.TypeId == 2)
+            {
+                transaction.Amount = -transaction.Amount;
+            }
             _context.Transactions.Add(transaction);
             try
             {

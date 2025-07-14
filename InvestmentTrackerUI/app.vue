@@ -7,7 +7,10 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-
-
+<script setup>
+useHead({
+  htmlAttrs: {
+    lang: 'fr'
+  }
+})
 </script>

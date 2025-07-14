@@ -1,4 +1,4 @@
-import { Type } from "~/models/Type"
+import { Type } from "~/shared/types/Type"
 
 export async function GetTypes() {
   const response = await $fetch.raw('https://localhost:7003/api/transactiontypes', {

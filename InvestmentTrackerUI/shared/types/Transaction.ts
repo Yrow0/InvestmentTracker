@@ -3,8 +3,8 @@ import type { Type } from "./Type"
 
 export class Transaction {
     id? : string
-    typeId? : string
-    categoryId? : string
+    typeId? : number
+    categoryId? : number
     amount: number
     description? : string
     category? : Category
