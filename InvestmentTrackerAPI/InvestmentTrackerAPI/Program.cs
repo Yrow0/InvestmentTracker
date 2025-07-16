@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using InvestmentTrackerAPI.Data;
+using InvestmentTrackerAPI.Mapper;
+using InvestmentTrackerAPI.Profiles;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,6 +14,22 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContextFactory<InvestmentTrackerContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("Sql")));
+
+//Mapper
+builder.Services.AddAutoMapper(typeof(TransactionProfile));
+builder.Services.AddAutoMapper(typeof(CategoryProfile));
+builder.Services.AddAutoMapper(typeof(TransactionTypeProfile));
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,5 +44,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.UseCors();
 app.Run();

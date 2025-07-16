@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace InvestmentTrackerAPI.Models;
 
-public partial class Coin
+public class Coin
 {
     public Guid Id { get; set; }
 

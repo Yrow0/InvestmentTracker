@@ -1,6 +1,8 @@
 <template>
-    <div class="border-r-1 flex flex-col">
-
+    <div class="">
+        <h1>
+            ezreffoiqdgfqenhrgqejkgqseln
+        </h1>
     </div>
 </template>
 

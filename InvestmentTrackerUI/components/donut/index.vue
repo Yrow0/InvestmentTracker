@@ -5,27 +5,40 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from "vue";
+import { GetCategories } from "~/services/categoryService";
+import { GetAmountOfTransactionsByCategory } from "~/services/transactionService";
+import type { Category } from "~/shared/types/Category";
 
-onMounted(() => {
-    chartData.value = setChartData();
+
+
+
+onMounted(async () => {
+    
+    categories.value = await GetCategories();
+    amountsbycategory.value = await GetAmountOfTransactionsByCategory();
+    chartData.value = setChartData(categories.value, amountsbycategory.value);
     chartOptions.value = setChartOptions();
 });
 
+const categories = ref<Category[]>([]);
+const amountsbycategory = ref<{[id:number]: number}>([]);
 const chartData = ref();
 const chartOptions = ref(null);
 
-const setChartData = () => {
+const setChartData = (categories: Category[], amounts: {[id:number]: number}) => {
     const documentStyle = getComputedStyle(document.body);
-
+    console.log("donut");
+    console.log(categories);
+    console.log(amounts);
     return {
-        labels: ['Crypto', 'Bourses', 'Cash', 'Immo'],
+        labels: categories.map(c=> c.name),
         datasets: [
             {
-                data: [540, 325, 702, 403],
-                backgroundColor: [documentStyle.getPropertyValue('--p-cyan-500'), documentStyle.getPropertyValue('--p-orange-500'), documentStyle.getPropertyValue('--p-gray-500'), documentStyle.getPropertyValue('--p-red-500')],
-                hoverBackgroundColor: [documentStyle.getPropertyValue('--p-cyan-400'), documentStyle.getPropertyValue('--p-orange-400'), documentStyle.getPropertyValue('--p-gray-400'), documentStyle.getPropertyValue('--p-red-400')],
+                data: categories.map(c => amounts[c.id] ?? 0),
+                backgroundColor: [documentStyle.getPropertyValue('--p-red-500'), documentStyle.getPropertyValue('--p-orange-500'), documentStyle.getPropertyValue('--p-stone-500'), documentStyle.getPropertyValue('--p-blue-500')],
+                hoverBackgroundColor: [documentStyle.getPropertyValue('--p-red-400'), documentStyle.getPropertyValue('--p-orange-400'), documentStyle.getPropertyValue('--p-stone-400'), documentStyle.getPropertyValue('--p-blue-400')],
                 borderWidth: 0,
             }
         ]
