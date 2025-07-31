@@ -25,7 +25,7 @@ onMounted(async () => {
 const categories = ref<Category[]>([]);
 const amountsbycategory = ref<{[id:number]: number}>([]);
 const chartData = ref();
-const chartOptions = ref(null);
+const chartOptions = ref();
 
 const setChartData = (categories: Category[], amounts: {[id:number]: number}) => {
     const documentStyle = getComputedStyle(document.body);
@@ -50,11 +50,10 @@ const setChartOptions = () => {
     const textColor = documentStyle.getPropertyValue('--p-text-color');
 
     return {
-        cutout : '85%',
+        cutout : '80%',
         plugins: {
             legend: {
                 labels: {
-                    cutout: '60%',
                     color: textColor
                 }
             }
